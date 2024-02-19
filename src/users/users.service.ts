@@ -30,12 +30,4 @@ export class UsersService {
       where: query,
     });
   }
-
-  update(id: number, updateUserDto: Prisma.UserUpdateInput) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
-  }
 }
