@@ -11,22 +11,24 @@ export class UsersService {
     return this.databaseService.user.create({ data: createUserDto });
   }
 
-  async login(loginParams: UserLoginDto) {
+  async login(loginParams: UserLoginDto): Promise<Prisma.UserCreateInput> {
     const { email, password } = loginParams;
     const query = {
       email,
       password,
     };
 
-    return this.filterByQuery(query);
+    const users = await this.filterByQuery(query);
+
+    return users[0];
   }
 
   async findAll() {
-    return this.databaseService.user.findMany({});
+    return await this.databaseService.user.findMany({});
   }
 
   async filterByQuery(query: any) {
-    return this.databaseService.user.findMany({
+    return await this.databaseService.user.findMany({
       where: query,
     });
   }
