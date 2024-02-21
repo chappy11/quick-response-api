@@ -3,9 +3,9 @@ import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { UserLoginDto } from './dto/User.dto';
 
-@Controller('users')
+@Controller("users")
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @Post()
   create(@Body() createUserDto: Prisma.UserCreateInput) {
