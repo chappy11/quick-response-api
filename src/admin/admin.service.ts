@@ -21,7 +21,7 @@ export class AdminService {
   }
 
   async login(loginDto: AdminLoginDto) {
-    const response = await this.findByQuery(loginDto);
+    const response = await this.findOne(loginDto);
 
     return response;
   }
@@ -30,6 +30,14 @@ export class AdminService {
     const response = await this.dbServices.admin.findMany({
       where: query,
     });
+
+    return response;
+  }
+
+  async findOne<T>(query: T) {
+    const response = await this.dbServices.admin.findFirst({
+      where: query
+    })
 
     return response;
   }
