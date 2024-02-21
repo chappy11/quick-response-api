@@ -5,7 +5,27 @@ import { AdminLoginDto } from './dto/admin.dto';
 
 @Injectable()
 export class AdminService {
-  constructor(private readonly dbServices: DatabaseService) { }
+  private db = null;
+
+  constructor(private readonly dbServices: DatabaseService) {
+    this.db = this.dbServices.admin;
+  }
+
+  private async findByQuery<T>(query: T) {
+    const response = await this.dbServices.admin.findMany({
+      where: query,
+    });
+
+    return response;
+  }
+
+  private async findOne<T>(query: T) {
+    const response = await this.dbServices.admin.findFirst({
+      where: query
+    })
+
+    return response;
+  }
 
   async create(createAdminDto: Prisma.AdminCreateInput) {
     const response = await this.dbServices.admin.create({
@@ -22,22 +42,6 @@ export class AdminService {
 
   async login(loginDto: AdminLoginDto) {
     const response = await this.findOne(loginDto);
-
-    return response;
-  }
-
-  async findByQuery<T>(query: T) {
-    const response = await this.dbServices.admin.findMany({
-      where: query,
-    });
-
-    return response;
-  }
-
-  async findOne<T>(query: T) {
-    const response = await this.dbServices.admin.findFirst({
-      where: query
-    })
 
     return response;
   }
