@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class UserLoginDto {
+export class AdminLoginDto {
   @IsNotEmpty()
   @IsString()
-  email: string;
+  username: string;
 
   @IsNotEmpty()
   @IsString()

@@ -24,3 +24,16 @@ model User {
   createAt     DateTime @default(now())
   updateAt     DateTime @updatedAt
 }
+
+model Admin {
+  id         Int      @id @default(autoincrement())
+  avatar     String?
+  firstname  String
+  middlename String
+  lastname   String
+  username   String
+  password   String
+  email      String
+  createAt   DateTime @default(now())
+  updateAt   DateTime @updatedAt
+}

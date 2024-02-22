@@ -5,10 +5,31 @@ import { UserLoginDto } from './dto/User.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly databaseService: DatabaseService) {}
+
+  private db = null;
+
+  constructor(private readonly databaseService: DatabaseService) {
+    this.db = this.databaseService.user;
+  }
+
+  private async findManyQuery<T>(query: T) {
+    const response = await this.db.findMany({
+      where: query,
+    });
+
+    return response;
+  }
+
+  private async findOneQuery<T>(query: T) {
+    const response = await this.db.findFirst({
+      where: query
+    })
+
+    return response
+  }
 
   async create(createUserDto: Prisma.UserCreateInput) {
-    return this.databaseService.user.create({ data: createUserDto });
+    return this.db.create({ data: createUserDto });
   }
 
   async login(loginParams: UserLoginDto): Promise<Prisma.UserCreateInput> {
@@ -18,18 +39,13 @@ export class UsersService {
       password,
     };
 
-    const users = await this.filterByQuery(query);
+    const user = await this.findOneQuery(query);
 
-    return users[0];
+    return user;
   }
 
   async findAll() {
-    return await this.databaseService.user.findMany({});
+    return await this.db.user.findMany({});
   }
 
-  async filterByQuery(query: any) {
-    return await this.databaseService.user.findMany({
-      where: query,
-    });
-  }
 }
