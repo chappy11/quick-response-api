@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { AccountNotFound } from 'src/_lib/errors/account-not-found.error';
 import { DatabaseService } from 'src/database/database.service';
 import { AdminLoginDto } from './dto/admin.dto';
 
@@ -42,6 +43,10 @@ export class AdminService {
 
   async login(loginDto: AdminLoginDto) {
     const response = await this.findOne(loginDto);
+
+    if (!response) {
+      throw new AccountNotFound();
+    }
 
     return response;
   }

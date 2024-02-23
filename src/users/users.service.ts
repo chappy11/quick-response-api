@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { AccountNotFound } from 'src/_lib/errors/account-not-found.error';
 import { DatabaseService } from 'src/database/database.service';
 import { UserLoginDto } from './dto/User.dto';
 
@@ -40,6 +41,9 @@ export class UsersService {
     };
 
     const user = await this.findOneQuery(query);
+    if (!user) {
+      throw new AccountNotFound();
+    }
 
     return user;
   }
